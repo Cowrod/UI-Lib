@@ -2,11 +2,11 @@
 	-- Functions: 
 		-- Lib.Title(<Title Name>)
 		-- Lib.Tab(<Tab Name>)
-		-- Lib.Button(<Text>,<Callback>,<Tab Name>,<Create Tab If Not Exits / Enter: true/false>)
-		-- Lib.Toggle(<Text>,<Callback>,<Tab Name>,<Create Tab If Not Exits / Enter: true/false>,<On/Off? / Enter: true/false>)
-		-- Lib.TextBox(<Text>,<Callback>,<Tab Name>,<Create Tab If Not Exits / Enter: true/false>)
-		-- Lib.Label(<Text>,<Tab Name>,<Create Tab If Not Exits / Enter: true/false>)
-		-- Lib.Space(<Tab Name>,<Create Tab If Not Exits / Enter: true/false>)
+		-- <tab>:Button(<Text>,<Callback>)
+		-- <tab>:Toggle(<Text>,<On/Off=true/false>,<Callback>)
+		-- <tab>:TextBox(<Text>,<Callback>)
+		-- <tab>:Label(<Text>)
+		-- <tab>:Space()
 ]]
 
 local RandomUI = Instance.new("ScreenGui")
@@ -59,6 +59,7 @@ ScrollingFrame.CanvasSize = UDim2.new(0, 0, 0, 0)
 Frame_2.Parent = ScrollingFrame
 Frame_2.BackgroundColor3 = Color3.fromRGB(62, 62, 62)
 Frame_2.BorderSizePixel = 0
+Frame_2.Position = UDim2.new(-0.251, 0,0, 0)
 Frame_2.Size = UDim2.new(0, 167, 0, 334)
 
 TextLabel_2.Parent = Frame_2
@@ -291,210 +292,11 @@ coroutine.wrap(function()
 end)()
 
 local FunctionPath=Instance.new('LocalScript', PageTab)
-function CreateTabFrame(name)
-	local script=FunctionPath
-	local instance=Instance.new("ScrollingFrame",script.Parent.Parent.FrameTab)
-	instance.BackgroundColor3,instance.Name,instance.Visible,instance.BorderSizePixel,instance.ScrollBarThickness,instance.CanvasSize=Color3.new(0.278431, 0.278431, 0.278431),tostring(name),false,0,0,UDim2.new(0,0,0,0)
-	instance:TweenSize(UDim2.new(0, 666,0, 311))
-	local uilist=Instance.new("UIListLayout",instance)
-	uilist.Padding,uilist.SortOrder=UDim.new(0,5),Enum.SortOrder.LayoutOrder
-end
-function CreateTab(name)
-	local script=FunctionPath
-	local instance=Instance.new("TextButton",script.Parent)
-	instance.Text,instance.BackgroundColor3,instance.TextColor3,instance.TextScaled,instance.TextXAlignment,instance.Font=name,Color3.new(0.184314, 0.184314, 0.184314),Color3.new(1, 1, 1),true,"Left","Code"
-	instance:TweenSize(UDim2.new(0,167,0,29))
-	script.Parent.CanvasSize=UDim2.new(0,0,script.Parent.CanvasSize.Y.Scale,(29+script.Parent.CanvasSize.Y.Offset+5))
-	CreateTabFrame(name)
-	if #script.Parent.Parent.FrameTab:GetChildren()==1 then
-		script.Parent.Parent.FrameTab[name].Visible=true
-	end
-	instance.MouseButton1Click:connect(function()
-		for i,v in pairs(script.Parent.Parent.FrameTab:GetChildren()) do
-			v.Visible=false
-		end
-		script.Parent.Parent.FrameTab[name].Visible=true
-	end)
-end
-function CreateButton(Text,Callback,Frame,NonValidError)
-	local script=FunctionPath
-	if not tostring(Text)then
-		Text="Test Text! - Invalid Text"
-	end
-	if not type(Callback)=="function"then
-		Callback=function()
-			print("Clicked To Button!")
-		end
-	end
-	if tostring(Frame)then
-		local output=false
-		for i,v in pairs(script.Parent.Parent.FrameTab:GetChildren()) do
-			if v.Name==Frame then
-				output=true
-			end
-		end
-		if not output then
-			warn("Tab Not Founded (PUT VALID NAME)")
-			if NonValidError then
-				warn("Creating Tab")
-				CreateTab(Frame)
-			end
-		end
-	else
-		warn("Input FRAME Are Not Contain To Avabile Text Plase Enter Text (PUT STRING NAME)")
-	end
-	local frame=script.Parent.Parent.FrameTab[Frame]
-	frame.CanvasSize = UDim2.new(0,0,frame.CanvasSize.Y.Scale,(34+frame.CanvasSize.Y.Offset+5))
-	local BTN = Instance.new("TextButton",frame)
-	BTN.Text,BTN.BackgroundColor3,BTN.BorderSizePixel,BTN.Size,BTN.Font,BTN.TextColor3,BTN.TextScaled,BTN.TextXAlignment=Text,Color3.fromRGB(48, 48, 48),0,UDim2.new(0, 659,0, 34),"Code",Color3.fromRGB(255,255,255),true,"Left"
-	BTN.MouseButton1Click:Connect(Callback)
-end
-function CreateToggle(Text,Callback,Frame,NonValidError,Toggle)
-	local script=FunctionPath
-	if not tostring(Text)then
-		Text="Test Text! - Invalid Text"
-	end
-	if not type(Callback)=="function"then
-		Callback=function()
-			print("Clicked To Button!")
-		end
-	end
-	if tostring(Frame)then
-		local output=false
-		for i,v in pairs(script.Parent.Parent.FrameTab:GetChildren()) do
-			if v.Name==Frame then
-				output=true
-			end
-		end
-		if not output then
-			warn("Tab Not Founded (PUT VALID NAME)")
-			if NonValidError then
-				warn("Creating Tab")
-				CreateTab(Frame)
-			end
-		end
-	else
-		warn("Input FRAME Are Not Contain To Avabile Text Plase Enter Text (PUT STRING NAME)")
-	end
-	local frame=script.Parent.Parent.FrameTab[Frame]
-	frame.CanvasSize = UDim2.new(0,0,frame.CanvasSize.Y.Scale,(34+frame.CanvasSize.Y.Offset+5))
-	local BTN = Instance.new("TextButton",frame)
-	BTN.Text,BTN.BackgroundColor3,BTN.BorderSizePixel,BTN.Size,BTN.Font,BTN.TextColor3,BTN.TextScaled,BTN.TextXAlignment=Text,Color3.fromRGB(48, 48, 48),0,UDim2.new(0, 659,0, 34),"Code",Color3.fromRGB(255,255,255),true,"Left"
-	if Toggle then
-		BTN.Text=Text.." - On"
-	else
-		BTN.Text=Text.." - Off"
-	end
-	local t=Toggle
-	BTN.MouseButton1Click:Connect(function()
-		if t then
-			t=false
-			BTN.Text=Text.." - Off"
-		else
-			t=true
-			BTN.Text=Text.." - On"
-		end
-		coroutine.wrap(Callback)(t)
-	end)
-end
-function CreateTextBox(Text,Callback,Frame,NonValidError)
-	local script=FunctionPath
-	if not tostring(Text)then
-		Text="Test Text! - Invalid Text"
-	end
-	if not type(Callback)=="function"then
-		Callback=function()
-			print("Clicked To Button!")
-		end
-	end
-	if tostring(Frame)then
-		local output=false
-		for i,v in pairs(script.Parent.Parent.FrameTab:GetChildren()) do
-			if v.Name==Frame then
-				output=true
-			end
-		end
-		if not output then
-			warn("Tab Not Founded (PUT VALID NAME)")
-			if NonValidError then
-				warn("Creating Tab")
-				CreateTab(Frame)
-			end
-		end
-	else
-		warn("Input FRAME Are Not Contain To Avabile Text Plase Enter Text (PUT STRING NAME)")
-	end
-	local frame=script.Parent.Parent.FrameTab[Frame]
-	frame.CanvasSize = UDim2.new(0,0,frame.CanvasSize.Y.Scale,(34+frame.CanvasSize.Y.Offset+5))
-	local BTN = Instance.new("TextBox",frame)
-	BTN.PlaceholderText,BTN.BackgroundColor3,BTN.BorderSizePixel,BTN.Size,BTN.Font,BTN.TextColor3,BTN.TextScaled,BTN.TextXAlignment=Text,Color3.fromRGB(48, 48, 48),0,UDim2.new(0, 659,0, 34),"Code",Color3.fromRGB(255,255,255),true,"Left"
-	BTN.Changed:Connect(function(t)
-		if t=="Text"then coroutine.wrap(Callback)(BTN.Text)end
-	end)
-end
-function CreateLabel(Text,Frame,NonValidError)
-	local script=FunctionPath
-	if not tostring(Text)then
-		Text="Test Text! - Invalid Text"
-	end
-	if tostring(Frame)then
-		local output=false
-		for i,v in pairs(script.Parent.Parent.FrameTab:GetChildren()) do
-			if v.Name==Frame then
-				output=true
-			end
-		end
-		if not output then
-			warn("Tab Not Founded (PUT VALID NAME)")
-			if NonValidError then
-				warn("Creating Tab")
-				CreateTab(Frame)
-			end
-		end
-	else
-		warn("Input FRAME Are Not Contain To Avabile Text Plase Enter Text (PUT STRING NAME)")
-	end
-	local frame=script.Parent.Parent.FrameTab[Frame]
-	frame.CanvasSize = UDim2.new(0,0,frame.CanvasSize.Y.Scale,(34+frame.CanvasSize.Y.Offset+5))
-	local BTN = Instance.new("TextLabel",frame)
-	BTN.Text,BTN.BackgroundColor3,BTN.BorderSizePixel,BTN.Size,BTN.Font,BTN.TextColor3,BTN.TextScaled,BTN.TextXAlignment=Text,Color3.fromRGB(48, 48, 48),0,UDim2.new(0, 659,0, 34),"Code",Color3.fromRGB(255,255,255),true,"Left"
-end
-function AddSpace(Frame,NonValidError)
-	local script=FunctionPath
-	if tostring(Frame)then
-		local output=false
-		for i,v in pairs(script.Parent.Parent.FrameTab:GetChildren()) do
-			if v.Name==Frame then
-				output=true
-			end
-		end
-		if not output then
-			warn("Tab Not Founded (PUT VALID NAME)")
-			if NonValidError then
-				warn("Creating Tab")
-				CreateTab(Frame)
-			end
-		end
-	else
-		warn("Input FRAME Are Not Contain To Avabile Text Plase Enter Text (PUT STRING NAME)")
-	end
-	local frame=script.Parent.Parent.FrameTab[Frame]
-	frame.CanvasSize = UDim2.new(0,0,frame.CanvasSize.Y.Scale,(34+frame.CanvasSize.Y.Offset+5))
-	local BTN = Instance.new("Frame",frame)
-	BTN.BorderSizePixel,BTN.Size,BTN.BackgroundTransparency=0,UDim2.new(0, 659,0, 34),.99
-end
-function SetTitle(...)
-	if tostring(...)then
-		TextLabel.Text=...
-	end
-end
+function CreateTabFrame(name)local frame=Instance.new("ScrollingFrame",FunctionPath.Parent.Parent.FrameTab)frame.BackgroundColor3=Color3.new(0.278431, 0.278431, 0.278431)frame.Name=tostring(name)frame.Visible=false;frame.BorderSizePixel=0;frame.ScrollBarThickness=0;frame.CanvasSize=UDim2.new(0,0,0,0)frame:TweenSize(UDim2.new(0, 666,0, 311))local uilist=Instance.new("UIListLayout",frame)uilist.Padding=UDim.new(0,5)uilist.SortOrder="LayoutOrder"Func={}function Func:Button(Text,Callback)if not tostring(Text)then Text="Invalid Text"end;if not type(Callback)=="function"then Callback=function()print("Clicked To Button!")end;end;frame.CanvasSize = UDim2.new(0,0,frame.CanvasSize.Y.Scale,(34+frame.CanvasSize.Y.Offset+5))Button=Instance.new("TextButton",frame)Button.Text=Text;Button.BackgroundColor3=Color3.fromRGB(48, 48, 48)Button.BorderSizePixel=0;Button.Size=UDim2.new(0, 659,0, 34)Button.Font="Code"Button.TextColor3=Color3.fromRGB(255,255,255)Button.TextScaled=true;Button.TextXAlignment="Left"Button.MouseButton1Click:Connect(Callback)end;function Func:Toggle(Text,Toggle_,Callback)if not tostring(Text)then Text="Invalid Text"end;if not type(Callback)=="function"then Callback=function(v)print("Clicked To Toggle! | Mode: "..tostring(v))end;end;frame.CanvasSize = UDim2.new(0,0,frame.CanvasSize.Y.Scale,(34+frame.CanvasSize.Y.Offset+5))Toggle=Instance.new("TextButton",frame)Toggle.Text=Text;Toggle.BackgroundColor3=Color3.fromRGB(48, 48, 48)Toggle.BorderSizePixel=0;Toggle.Size=UDim2.new(0, 659,0, 34)Toggle.Font="Code"Toggle.TextColor3=Color3.fromRGB(255,255,255)Toggle.TextScaled=true;Toggle.TextXAlignment="Left"local t=Toggle_;if t then Toggle.Text=Text.." - On"else Toggle.Text=Text.." - Off"end;Toggle.MouseButton1Click:Connect(function()if t then t=false;Toggle.Text=Text.." - Off"else t=true;Toggle.Text=Text.." - On"end;coroutine.wrap(Callback)(t)end)end;function Func:TextBox(Text,Callback)if not tostring(Text)then Text="Invalid Text"end;if not type(Callback)=="function"then Callback=function(t)print("TextBox Edited | Text: "..t)end;end;frame.CanvasSize=UDim2.new(0,0,frame.CanvasSize.Y.Scale,(34+frame.CanvasSize.Y.Offset+5))TextBox=Instance.new("TextBox",frame)TextBox.PlaceholderText=Text;TextBox.BackgroundColor3=Color3.fromRGB(48, 48, 48)TextBox.BorderSizePixel=0;TextBox.Size=UDim2.new(0, 659,0, 34)TextBox.Font="Code"TextBox.TextColor3=Color3.fromRGB(255,255,255)TextBox.TextScaled=true;TextBox.TextXAlignment="Left"TextBox.Changed:Connect(function(t)if t=="Text"then coroutine.wrap(Callback)(TextBox.Text)end;end)end;function Func:Label(Text)if not tostring(Text)then Text="Invalid Text"end;frame.CanvasSize = UDim2.new(0,0,frame.CanvasSize.Y.Scale,(34+frame.CanvasSize.Y.Offset+5))Label=Instance.new("TextLabel",frame)Label.Text=Text;Label.BackgroundColor3=Color3.fromRGB(48, 48, 48)Label.BorderSizePixel=0;Label.Size=UDim2.new(0, 659,0, 34)Label.Font="Code"Label.TextColor3=Color3.fromRGB(255,255,255)Label.TextScaled=true;Label.TextXAlignment="Left"end;function Func:Space()frame.CanvasSize = UDim2.new(0,0,frame.CanvasSize.Y.Scale,(34+frame.CanvasSize.Y.Offset+5))Space=Instance.new("Frame",frame)Space.BorderSizePixel=0;Space.Size=UDim2.new(0, 659,0, 34)Space.BackgroundTransparency=.99;end;return Func;end
+function CreateTab(name)if tostring(name)then local instance=Instance.new("TextButton",FunctionPath.Parent)instance.Text,instance.BackgroundColor3,instance.TextColor3,instance.TextScaled,instance.TextXAlignment,instance.Font=name,Color3.new(0.184314, 0.184314, 0.184314),Color3.new(1, 1, 1),true,"Left","Code"instance:TweenSize(UDim2.new(0,167,0,29))FunctionPath.Parent.CanvasSize=UDim2.new(0,0,FunctionPath.Parent.CanvasSize.Y.Scale,(29+FunctionPath.Parent.CanvasSize.Y.Offset+5))funcs=CreateTabFrame(name)if #FunctionPath.Parent.Parent.FrameTab:GetChildren()==1 then FunctionPath.Parent.Parent.FrameTab[name].Visible=true;end;instance.MouseButton1Click:connect(function()for i,v in pairs(FunctionPath.Parent.Parent.FrameTab:GetChildren())do v.Visible=false;end;FunctionPath.Parent.Parent.FrameTab[name].Visible=true;end)return funcs;end;end
+function SetTitle(...)if tostring(...)then TextLabel.Text=...;end;end
 local Lib = {
 	Tab=CreateTab,
-	Button=CreateButton,
-	Toggle=CreateToggle,
-	Label=CreateLabel,
-	TextBox=CreateTextBox,
-	Space=AddSpace,
 	Title=SetTitle
 }
 return Lib
