@@ -1,4 +1,4 @@
-local Lib=loadstring(game:HttpGet("https://raw.githubusercontent.com/Cowrod/UI-Lib/main/Source.lua"))
+local Lib=loadstring(game:HttpGet("https://raw.githubusercontent.com/Cowrod/UI-Lib/main/Source.lua"))()
 Lib.Title("Library Test")
 Lib.Tab("Test")
 Lib.Button("Button",function()
