@@ -1,12 +1,21 @@
 --[[
 	-- Functions: 
 		-- Lib.Title(<Title Name>)
-		-- Lib.Tab(<Tab Name>)
-		-- <tab>:Button(<Text>,<Callback>)
-		-- <tab>:Toggle(<Text>,<On/Off=true/false>,<Callback>)
-		-- <tab>:TextBox(<Text>,<Callback>)
-		-- <tab>:Label(<Text>)
-		-- <tab>:Space()
+		-- Lib.forceClose()
+		-- Lib.Close()
+		-- Lib.Min()
+		-- Lib.Tab()
+		-- Lib.CreateTab(<Tab Name>)
+			-- <tab>:edittext(<Text>)
+			-- <tab>:Button(<Text>,<Callback>)
+				-- <Button>:edittext(<Text>)
+			-- <tab>:Toggle(<Text>,<On/Off=true/false>,<Callback>)
+				-- <Toggle>:edittext(<Text>)
+			-- <tab>:TextBox(<Text>,<Callback>)
+				-- <TextBox>:edittext(<Text>)
+			-- <tab>:Label(<Text>)
+				-- <Label>:edittext(<Text>)
+			-- <tab>:Space()
 ]]
 
 local RandomUI = Instance.new("ScreenGui")
@@ -27,7 +36,10 @@ RandomUI.Name = "RandomUI"
 RandomUI.Parent = game.CoreGui
 RandomUI.ResetOnSpawn = false
 
+_G.FetchCode=math.random(1,99999)
+
 Frame.Parent = RandomUI
+Frame.Name = "UILIB_".._G.FetchCode
 Frame.Active = true
 Frame.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
 Frame.BorderSizePixel = 0
@@ -170,84 +182,74 @@ coroutine.wrap(function()
 		wait()
 	end
 end)()
-coroutine.wrap(function()
-	local script = Instance.new('LocalScript', Close)
-
-	function v(tagret)
-		for i = 1, 20 do
-			tagret.TextTransparency += 0.05
-			tagret.BackgroundTransparency += 0.05
-			wait(0.029)
-		end
+local reqw,req,A_1,Tab=true,false,true,true
+function v(tagret)
+	for i = 1, 20 do
+		tagret.TextTransparency += 0.05
+		tagret.BackgroundTransparency += 0.05
+		wait(0.029)
 	end
-	local Tab = true
-	script.Parent.MouseButton1Click:Connect(function()
-		if Tab == true then
-			Tab = "Plase Wait.."
-			script.Parent.Parent.Sim.LocalScript.Disabled = true
-			script.Parent.Parent.CloseOpen.LocalScript.Disabled = true
-			wait(2.3)
-			script.Parent.Parent.ScrollingFrame:TweenSize(UDim2.new(0, 666,0, 0), "Out", "Quart", 2, true)
-			wait(2)
-			coroutine.wrap(function()v(script.Parent)end)()
-			coroutine.wrap(function()v(script.Parent.Parent.CloseOpen)end)()
-			coroutine.wrap(function()v(script.Parent.Parent.Sim)end)()
-			v(script.Parent.Parent.TextLabel)
-			script.Parent.Parent.Parent.Frame:TweenSize(UDim2.new(0, 0,0, script.Parent.Parent.Parent.Frame.Size.Y.Offset), "Out", "Quart", 2.029, true)
-			wait(2.029)
-			print("Done.")
-			script.Parent.Parent.Parent:Destroy()
-		else
-			print("Close: "..Tab)
-		end
-	end)
-end)()
+end
+function close()
+	if Tab == true then
+		Tab = "Plase Wait.."
+		wait(2.3)
+		ScrollingFrame:TweenSize(UDim2.new(0, 666,0, 0), "Out", "Quart", 2, true)
+		wait(2)
+		coroutine.wrap(function()v(Close)end)()
+		coroutine.wrap(function()v(CloseOpen)end)()
+		coroutine.wrap(function()v(Sim)end)()
+		v(TextLabel)
+		Frame:TweenSize(UDim2.new(0,0,0,Frame.Size.Y.Offset), "Out", "Quart", 2.029, true)
+		wait(2.029)
+		print("Done.")
+		RandomUI:Destroy()
+	else
+		print("Close: "..Tab)
+	end
+end
+function min()
+	if A_1 == false then
+		ScrollingFrame:TweenSize(UDim2.new(0, 666,0, 0), "Out", "Quart",  2, true)
+		A_1 = "Plase Wait.."
+		wait(2)
+		A_1 = true
+	elseif A_1 == true then
+		ScrollingFrame:TweenSize(UDim2.new(0, 666,0, 334), "Out", "Quart", 2, true)
+		A_1 = "Plase Wait.."
+		wait(2)
+		A_1 = false
+	else
+		print("Min: "..A_1)
+	end
+end
+function tab()
+	if req == true then
+		print("Open/Close: Plase Wait..")
+	elseif reqw == true then
+		reqw = false
+		req = true
+		CloseOpen.Parent.ScrollingFrame.Frame:TweenPosition("0, 0,0, 0", "In", "Quad", 1.5, "true")
+		wait(1.5)
+		req = false
+	elseif reqw == false then
+		reqw = true
+		req = true
+		CloseOpen.Parent.ScrollingFrame.Frame:TweenPosition("-0.251, 0,0, 0", "In", "Quad", 1.5, true)
+		wait(1.5)
+		req = false
+	end
+end
+Close.MouseButton1Click:Connect(function()
+	close()
+end)
+Sim.MouseButton1Click:Connect(function()
+	min()
+end)
+CloseOpen.MouseButton1Click:Connect(function()
+	tab()
+end)
 coroutine.wrap(function()
-	local script = Instance.new('LocalScript', Sim)
-
-	local A_1 = false
-	script.Parent.MouseButton1Click:Connect(function()
-		if A_1 == false then
-			script.Parent.Parent.ScrollingFrame:TweenSize(UDim2.new(0, 666,0, 0), "Out", "Quart",  2, true)
-			A_1 = "Plase Wait.."
-			wait(2)
-			A_1 = true
-		elseif A_1 == true then
-			script.Parent.Parent.ScrollingFrame:TweenSize(UDim2.new(0, 666,0, 334), "Out", "Quart", 2, true)
-			A_1 = "Plase Wait.."
-			wait(2)
-			A_1 = false
-		else
-			print("Min: "..A_1)
-		end
-	end)
-end)()
-coroutine.wrap(function()
-	local script = Instance.new('LocalScript', CloseOpen)
-
-	local reqw = true
-	local req = false
-	script.Parent.MouseButton1Click:Connect(function()
-		if req == true then
-			print("Open/Close: Plase Wait..")
-		elseif reqw == true then
-			reqw = false
-			req = true
-			script.Parent.Parent.ScrollingFrame.Frame:TweenPosition("0, 0,0, 0", "In", "Quad", 1.5, "true")
-			wait(1.5)
-			req = false
-		elseif reqw == false then
-			reqw = true
-			req = true
-			script.Parent.Parent.ScrollingFrame.Frame:TweenPosition("-0.251, 0,0, 0", "In", "Quad", 1.5, true)
-			wait(1.5)
-			req = false
-		end
-	end)
-end)()
-coroutine.wrap(function()
-	local script = Instance.new('LocalScript', Frame)
-
 	local mouse=game:GetService("Players").LocalPlayer:GetMouse();
 	local inputService=game:GetService('UserInputService');
 	local heartbeat=game:GetService("RunService").Heartbeat;
@@ -276,27 +278,203 @@ coroutine.wrap(function()
 			end)
 		end
 	end
-	draggerxnew(script.Parent)
+	draggerxnew(Frame)
 end)()
 coroutine.wrap(function()
-	local script = Instance.new('LocalScript', RandomUI)
-
 	local STRING = {"q","w","e","r","t","y","u","o","p","a","s","d","f","g","h","j","k","l","i","z","x","c","v","b","n","m","Q","W","E","R","T","Y","U","I","O","P","A","S","D","F","G","H","J","K","L","Z","X","C","V","B","N","M","0","1","2","3","4","5","6","7","8","9","/","*","-","+","!","%","&","(",")","=","?",",",".",">","£","#","½","[","{","}","]","_",";",":","\"","'"}
 	function A()
 		return STRING[math.random(1,#STRING)]..STRING[math.random(1,#STRING)]..STRING[math.random(1,#STRING)]..STRING[math.random(1,#STRING)]..STRING[math.random(1,#STRING)]..STRING[math.random(1,#STRING)]..STRING[math.random(1,#STRING)]..STRING[math.random(1,#STRING)]..STRING[math.random(1,#STRING)]..STRING[math.random(1,#STRING)]
 	end
 	while true do
-		script.Parent.Name=A()..A()..A()..A()..A()..A()..A()..A()..A()..A()
+		RandomUI.Name=A()..A()..A()..A()..A()..A()..A()..A()..A()..A()
 		wait(0.0000029)
 	end
 end)()
 
 local FunctionPath=Instance.new('LocalScript', PageTab)
-function CreateTabFrame(name)local frame=Instance.new("ScrollingFrame",FunctionPath.Parent.Parent.FrameTab)frame.BackgroundColor3=Color3.new(0.278431, 0.278431, 0.278431)frame.Name=tostring(name)frame.Visible=false;frame.BorderSizePixel=0;frame.ScrollBarThickness=0;frame.CanvasSize=UDim2.new(0,0,0,0)frame:TweenSize(UDim2.new(0, 666,0, 311))local uilist=Instance.new("UIListLayout",frame)uilist.Padding=UDim.new(0,5)uilist.SortOrder="LayoutOrder"Func={}function Func:Button(Text,Callback)if not tostring(Text)then Text="Invalid Text"end;if not type(Callback)=="function"then Callback=function()print("Clicked To Button!")end;end;frame.CanvasSize = UDim2.new(0,0,frame.CanvasSize.Y.Scale,(34+frame.CanvasSize.Y.Offset+5))Button=Instance.new("TextButton",frame)Button.Text=Text;Button.BackgroundColor3=Color3.fromRGB(48, 48, 48)Button.BorderSizePixel=0;Button.Size=UDim2.new(0, 659,0, 34)Button.Font="Code"Button.TextColor3=Color3.fromRGB(255,255,255)Button.TextScaled=true;Button.TextXAlignment="Left"Button.MouseButton1Click:Connect(Callback)end;function Func:Toggle(Text,Toggle_,Callback)if not tostring(Text)then Text="Invalid Text"end;if not type(Callback)=="function"then Callback=function(v)print("Clicked To Toggle! | Mode: "..tostring(v))end;end;frame.CanvasSize = UDim2.new(0,0,frame.CanvasSize.Y.Scale,(34+frame.CanvasSize.Y.Offset+5))Toggle=Instance.new("TextButton",frame)Toggle.Text=Text;Toggle.BackgroundColor3=Color3.fromRGB(48, 48, 48)Toggle.BorderSizePixel=0;Toggle.Size=UDim2.new(0, 659,0, 34)Toggle.Font="Code"Toggle.TextColor3=Color3.fromRGB(255,255,255)Toggle.TextScaled=true;Toggle.TextXAlignment="Left"local t=Toggle_;if t then Toggle.Text=Text.." - On"else Toggle.Text=Text.." - Off"end;Toggle.MouseButton1Click:Connect(function()if t then t=false;Toggle.Text=Text.." - Off"else t=true;Toggle.Text=Text.." - On"end;coroutine.wrap(Callback)(t)end)end;function Func:TextBox(Text,Callback)if not tostring(Text)then Text="Invalid Text"end;if not type(Callback)=="function"then Callback=function(t)print("TextBox Edited | Text: "..t)end;end;frame.CanvasSize=UDim2.new(0,0,frame.CanvasSize.Y.Scale,(34+frame.CanvasSize.Y.Offset+5))TextBox=Instance.new("TextBox",frame)TextBox.PlaceholderText=Text;TextBox.BackgroundColor3=Color3.fromRGB(48, 48, 48)TextBox.BorderSizePixel=0;TextBox.Size=UDim2.new(0, 659,0, 34)TextBox.Font="Code"TextBox.TextColor3=Color3.fromRGB(255,255,255)TextBox.TextScaled=true;TextBox.TextXAlignment="Left"TextBox.Changed:Connect(function(t)if t=="Text"then coroutine.wrap(Callback)(TextBox.Text)end;end)end;function Func:Label(Text)if not tostring(Text)then Text="Invalid Text"end;frame.CanvasSize = UDim2.new(0,0,frame.CanvasSize.Y.Scale,(34+frame.CanvasSize.Y.Offset+5))Label=Instance.new("TextLabel",frame)Label.Text=Text;Label.BackgroundColor3=Color3.fromRGB(48, 48, 48)Label.BorderSizePixel=0;Label.Size=UDim2.new(0, 659,0, 34)Label.Font="Code"Label.TextColor3=Color3.fromRGB(255,255,255)Label.TextScaled=true;Label.TextXAlignment="Left"end;function Func:Space()frame.CanvasSize = UDim2.new(0,0,frame.CanvasSize.Y.Scale,(34+frame.CanvasSize.Y.Offset+5))Space=Instance.new("Frame",frame)Space.BorderSizePixel=0;Space.Size=UDim2.new(0, 659,0, 34)Space.BackgroundTransparency=.99;end;return Func;end
-function CreateTab(name)if tostring(name)then local instance=Instance.new("TextButton",FunctionPath.Parent)instance.Text,instance.BackgroundColor3,instance.TextColor3,instance.TextScaled,instance.TextXAlignment,instance.Font=name,Color3.new(0.184314, 0.184314, 0.184314),Color3.new(1, 1, 1),true,"Left","Code"instance:TweenSize(UDim2.new(0,167,0,29))FunctionPath.Parent.CanvasSize=UDim2.new(0,0,FunctionPath.Parent.CanvasSize.Y.Scale,(29+FunctionPath.Parent.CanvasSize.Y.Offset+5))funcs=CreateTabFrame(name)if #FunctionPath.Parent.Parent.FrameTab:GetChildren()==1 then FunctionPath.Parent.Parent.FrameTab[name].Visible=true;end;instance.MouseButton1Click:connect(function()for i,v in pairs(FunctionPath.Parent.Parent.FrameTab:GetChildren())do v.Visible=false;end;FunctionPath.Parent.Parent.FrameTab[name].Visible=true;end)return funcs;end;end
-function SetTitle(...)if tostring(...)then TextLabel.Text=...;end;end
+function CreateTabFrame(name)
+	local frame=Instance.new("ScrollingFrame",FunctionPath.Parent.Parent.FrameTab)
+	frame.BackgroundColor3=Color3.new(0.278431, 0.278431, 0.278431)
+	frame.Name=tostring(name)
+	frame.Visible=false;
+	frame.BorderSizePixel=0;
+	frame.ScrollBarThickness=0;
+	frame.CanvasSize=UDim2.new(0,0,0,272)
+	frame.Size=UDim2.new(0, 666,0, 311)
+	local uilist=Instance.new("UIListLayout",frame)
+	uilist.Padding=UDim.new(0,5)uilist.SortOrder="LayoutOrder"
+	Func={}
+	function Func:Button(Text,Callback)
+		if not tostring(Text)then
+			Text="Invalid Text"
+		end;
+		if not type(Callback)=="function"then
+			Callback=function()
+				print("Clicked To Button!")
+			end;
+		end;
+		frame.CanvasSize=UDim2.new(0,0,frame.CanvasSize.Y.Scale,(34+frame.CanvasSize.Y.Offset+5))
+		Button=Instance.new("TextButton",frame)
+		Button.Text=Text;
+		Button.BackgroundColor3=Color3.fromRGB(48, 48, 48)
+		Button.BorderSizePixel=0;
+		Button:TweenSize(UDim2.new(0, 659,0, 34))
+		Button.Font="Code"
+		Button.TextColor3=Color3.fromRGB(255,255,255)
+		Button.TextScaled=true;
+		Button.TextXAlignment="Left"
+		Button.MouseButton1Click:Connect(Callback)
+		local rtrn={}
+		function rtrn:edittext(...)
+			if tostring(...)then 
+				Button.Text=tostring(...)
+			end;
+		end;
+		return rtrn;
+	end;
+	function Func:Toggle(Text,Toggle_,Callback)
+		if not tostring(Text)then
+			Text="Invalid Text"
+		end;
+		if not type(Callback)=="function"then
+			Callback=function(v)
+				print("Clicked To Toggle! | Mode: "..tostring(v))
+			end;
+		end;
+		frame.CanvasSize = UDim2.new(0,0,frame.CanvasSize.Y.Scale,(34+frame.CanvasSize.Y.Offset+5))
+		Toggle=Instance.new("TextButton",frame)
+		Toggle.Text=Text;
+		Toggle.BackgroundColor3=Color3.fromRGB(48, 48, 48)
+		Toggle.BorderSizePixel=0;
+		Toggle:TweenSize(UDim2.new(0, 659,0, 34))
+		Toggle.Font="Code"
+		Toggle.TextColor3=Color3.fromRGB(255,255,255)
+		Toggle.TextScaled=true;
+		Toggle.TextXAlignment="Left"
+		local t=Toggle_;
+		if t then
+			Toggle.Text=Text.." - On"
+		else
+			Toggle.Text=Text.." - Off"
+		end;
+		Toggle.MouseButton1Click:Connect(function()
+			if t then
+				t=false;
+				Toggle.Text=Text.." - Off"
+			else
+				t=true;
+				Toggle.Text=Text.." - On"
+			end;
+			coroutine.wrap(Callback)(t)
+		end)
+		local rtrn={}
+		function rtrn:edittext(...)
+			if tostring(...)then 
+				Toggle.Text=tostring(...)
+			end;
+		end;
+		return rtrn;
+	end;
+	function Func:TextBox(Text,Callback)
+		if not tostring(Text)then
+			Text="Invalid Text"
+		end;
+		if not type(Callback)=="function"then
+			Callback=function(t)
+				print("TextBox Edited | Text: "..t)
+			end;
+		end;
+		frame.CanvasSize=UDim2.new(0,0,frame.CanvasSize.Y.Scale,(34+frame.CanvasSize.Y.Offset+5))
+		TextBox=Instance.new("TextBox",frame)
+		TextBox.PlaceholderText=Text;
+		TextBox.BackgroundColor3=Color3.fromRGB(48, 48, 48)
+		TextBox.BorderSizePixel=0;
+		TextBox:TweenSize(UDim2.new(0, 659,0, 34))
+		TextBox.Font="Code"
+		TextBox.TextColor3=Color3.fromRGB(255,255,255)
+		TextBox.TextScaled=true;
+		TextBox.TextXAlignment="Left"
+		TextBox.Changed:Connect(function(t)
+			if t=="Text"then
+				coroutine.wrap(Callback)(TextBox.Text)
+			end;
+		end)
+		local rtrn={}
+		function rtrn:edittext(...)
+			if tostring(...)then 
+				TextBox.PlaceholderText=tostring(...)
+			end;
+		end;
+		return rtrn;
+	end;
+	function Func:Label(Text)
+		if not tostring(Text)then 
+			Text="Invalid Text"
+		end;
+		frame.CanvasSize = UDim2.new(0,0,frame.CanvasSize.Y.Scale,(34+frame.CanvasSize.Y.Offset+5))
+		Label=Instance.new("TextLabel",frame)
+		Label.Text=Text;
+		Label.BackgroundColor3=Color3.fromRGB(48, 48, 48)
+		Label.BorderSizePixel=0;
+		Label:TweenSize(UDim2.new(0, 659,0, 34))
+		Label.Font="Code"
+		Label.TextColor3=Color3.fromRGB(255,255,255)
+		Label.TextScaled=true;
+		Label.TextXAlignment="Left"
+		local rtrn={}
+		function rtrn:edittext(...)
+			if tostring(...)then 
+				Label.Text=tostring(...)
+			end;
+		end;
+		return rtrn;
+	end;
+	function Func:Space()
+		frame.CanvasSize = UDim2.new(0,0,frame.CanvasSize.Y.Scale,(34+frame.CanvasSize.Y.Offset+5))
+		Space=Instance.new("Frame",frame)
+		Space.BorderSizePixel=0;
+		Space.Size=UDim2.new(0, 659,0, 34)
+		Space.BackgroundTransparency=.99;
+	end;
+	return Func;
+end
+function CreateTab(name)
+	if tostring(name)then
+		local instance=Instance.new("TextButton",FunctionPath.Parent)
+		instance.Text,instance.BackgroundColor3,instance.TextColor3,instance.TextScaled,instance.TextXAlignment,instance.Font=name,Color3.new(0.184314, 0.184314, 0.184314),Color3.new(1, 1, 1),true,"Left","Code"
+		instance:TweenSize(UDim2.new(0,167,0,29))
+		FunctionPath.Parent.CanvasSize=UDim2.new(0,0,FunctionPath.Parent.CanvasSize.Y.Scale,(29+FunctionPath.Parent.CanvasSize.Y.Offset+5))
+		funcs=CreateTabFrame(name)
+		if #FunctionPath.Parent.Parent.FrameTab:GetChildren()==1 then
+			FunctionPath.Parent.Parent.FrameTab[name].Visible=true;
+		end;
+		instance.MouseButton1Click:connect(function()
+			for i,v in pairs(FunctionPath.Parent.Parent.FrameTab:GetChildren())do
+				v.Visible=false;
+			end;
+			FunctionPath.Parent.Parent.FrameTab[name].Visible=true;
+		end)
+		funcs.edittext=function(...)
+			if tostring(...)then
+				instance.Text=tostring(...)
+			end
+		end
+		return funcs
+	end;
+end
+function SetTitle(...)
+	if tostring(...)then
+		TextLabel.Text=tostring(...);
+	end;
+end
 local Lib = {
-	Tab=CreateTab,
-	Title=SetTitle
+	CreateTab=CreateTab,
+	Title=SetTitle,
+	Close=close,
+	Min=min,
+	Tab=tab,
+	forceClose=function()
+		RandomUI:Destroy()
+	end
 }
 return Lib
