@@ -1,6 +1,6 @@
 local Lib=loadstring(game:HttpGet("https://raw.githubusercontent.com/Cowrod/UI-Lib/main/Source.lua"))()
 Lib.Title("Library Test")
-local tab = Lib.Tab("Test")
+local tab = Lib.CreateTab("Test")
 tab:Button("Button",function()
 	print("Clicked To Button!")
 end)
