@@ -1,21 +1,41 @@
 --[[
+	-- Variables:
+		Fetch/UI Code: _G.FetchCode
 	-- Functions: 
 		-- Lib.Title(<Title Name>)
+			 -- Subtitle For UI Title
 		-- Lib.forceClose()
+			 -- Normal Close But Speedy
+		-- Lib.ClearTabs()
+			 -- Clear Tabs And TabFrames
 		-- Lib.Close()
+			 -- Normel Close
 		-- Lib.Min()
+			 -- Min UI
 		-- Lib.Tab()
+			 -- Open/Close Tab
 		-- Lib.CreateTab(<Tab Name>)
+			 	 -- Create Tab In UI
 			-- <tab>:edittext(<Text>)
+			 	 -- Edit Created Tab In UI
 			-- <tab>:Button(<Text>,<Callback>)
-				-- <Button>:edittext(<Text>)
+			 	 -- Create Button In Tab
+				 -- <Button>:edittext(<Text>)
+			 	 	 -- Edit Button Text In Tab
 			-- <tab>:Toggle(<Text>,<On/Off=true/false>,<Callback>)
-				-- <Toggle>:edittext(<Text>)
+			 	 -- Create Toggle In Tab
+				 -- <Toggle>:edittext(<Text>)
+			 	 	 -- Edit Toggle Text In Tab
 			-- <tab>:TextBox(<Text>,<Callback>)
-				-- <TextBox>:edittext(<Text>)
+			 	 -- Create Text Box In Tab
+				 -- <TextBox>:edittext(<Text>)
+			 	 	 -- Edit Text Box / Display Text In Tab
 			-- <tab>:Label(<Text>)
-				-- <Label>:edittext(<Text>)
+			 	 -- Create Label In Tab
+				 -- <Label>:edittext(<Text>) 
+			 	 	 -- Edit Label Text In Tab
 			-- <tab>:Space()
+			 	 -- Create Empty Invisible Frame In Tab
 ]]
 
 local RandomUI = Instance.new("ScreenGui")
@@ -370,7 +390,11 @@ function CreateTabFrame(name)
 		local rtrn={}
 		function rtrn:edittext(...)
 			if tostring(...)then 
-				Toggle.Text=tostring(...)
+				if t then
+					Toggle.Text=tostring(...).." - On"
+				else
+					Toggle.Text=tostring(...).." - Off"
+				end
 			end;
 		end;
 		return rtrn;
@@ -462,17 +486,24 @@ function CreateTab(name)
 		return funcs
 	end;
 end
-function SetTitle(...)
-	if tostring(...)then
-		TextLabel.Text=tostring(...);
-	end;
-end
 local Lib = {
 	CreateTab=CreateTab,
-	Title=SetTitle,
+	Title=function(...)
+		if tostring(...)then
+			TextLabel.Text=tostring(...);
+		end;
+	end,
 	Close=close,
 	Min=min,
 	Tab=tab,
+	ClearTabs=function()
+		for i,v in pairs(FunctionPath.Parent.Parent.FrameTab:GetChildren())do
+			v:Destroy()
+		end
+		for i,v in pairs(FunctionPath.Parent:GetChildren())do
+			v:Destroy()
+		end
+	end
 	forceClose=function()
 		RandomUI:Destroy()
 	end
