@@ -503,7 +503,7 @@ local Lib = {
 		for i,v in pairs(FunctionPath.Parent:GetChildren())do
 			v:Destroy()
 		end
-	end
+	end,
 	forceClose=function()
 		RandomUI:Destroy()
 	end
