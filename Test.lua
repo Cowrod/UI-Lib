@@ -6,8 +6,6 @@ tab:Button("Button",function()
 end)
 tab:Toggle("Toggle",false,function(t)
 	print("Toggle Changed: "..tostring(t))
-	-- If You Are Gona Print Result Put Value In tostring()
-	-- For Some Reason Its Broken For Me
 end)
 tab:TextBox("TextBox",function(t)
 	print("Text Edited: "..t)
